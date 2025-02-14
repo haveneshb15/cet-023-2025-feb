@@ -2,7 +2,7 @@ from flask import Flask, request, render_template # type: ignore
 import google.generativeai as genai
 import os
 
-api = os.getenv("makerspace")
+api = os.environ.get("makerspace")
 genai.configure(api_key=api)
 model = genai.GenerativeModel("gemini-1.5-flash")
 
@@ -20,9 +20,8 @@ def makersuite():
 @app.route("/gemini", methods=['GET','POST'])
 def gemini():
     q = request.form.get("q")
-    while not q == "quit":
-        r = model.generate_content(q)
-        return render_template("gemini.html", r=r.candidates[0].content.parts[0].text)
+    r = model.generate_content(q)
+    return render_template("gemini.html", r=r.candidates[0].content.parts[0].text)
 
 if __name__ == "__main__":
-   app.run(host="0.0.0.0")
+   app.run(host="0.0.0.0", port=8000)
