@@ -32,7 +32,7 @@ def sentiment():
 def textblob_result():
     q = request.form.get("q")
     r = textblob.TextBlob(q).sentiment
-    return render_template("textblob_result.html", r=r.candidates[0].content.parts[0].text)
+    return render_template("textblob_result.html", r=r)
 
 if __name__ == "__main__":
    app.run(host="0.0.0.0", port=8000, debug=True)
